@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <script src="script.js " defer></script>
+    <!-- <script src="script.js " defer></script> -->
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -18,5 +18,38 @@
       <div draggable="true" class="image" id="div5">Image 5</div>
       <div draggable="true" class="image" id="div6">Image 6</div>
     </div>
+	  <script>
+		  const allDivs=document.querySelectorAll(".image");
+
+console.log(allDivs);
+
+
+for(let div of allDivs){
+	div.addEventListener("dragstart",(e)=>{
+		e.dataTransfer.setData("text",e.target.id);
+        console.log(e)
+	})
+
+	div.addEventListener("dragover",(e)=>{
+		e.preventDefault();
+	})
+
+	div.addEventListener("drop",(e)=>{
+		e.preventDefault()
+		const draggedElementId=e.dataTransfer.getData("text");
+		const draggedElement=document.getElementById(draggedElementId);
+		const dropDiv=e.target
+		const draggedElementBgImage=getComputedStyle(draggedElement).backgroundImage;
+		const dropDivBgImage=getComputedStyle(dropDiv).backgroundImage
+		const dropDivText=dropDiv.innerText;
+		const draggedElementText=draggedElement.innerText;
+
+		draggedElement.style.backgroundImage=dropDivBgImage;
+		draggedElement.innerText=dropDivText;
+		dropDiv.style.backgroundImage=draggedElementBgImage
+		dropDiv.innerText=draggedElementText;
+	})
+}
+	  </script>
   </body>
 </html>
